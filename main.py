@@ -1,3 +1,4 @@
+import time
 import asyncio
 import random
 import sqlite3
@@ -94,8 +95,15 @@ async def on_startup():
 
 if __name__ == "__main__":
     init_db()
+
     async def main():
-        await on_startup()
-        await dp.start_polling(bot)
+        while True:
+            try:
+                await on_startup()
+                await dp.start_polling(bot)
+            except Exception as e:
+                print(f"Ошибка: {e}")
+                print("Бот ушел в сон на 5 секунд...")
+                time.sleep(5)
 
     asyncio.run(main())
